@@ -63,9 +63,19 @@ while True:
             pass
 
         elif choice == "2":
-            print("1 - собирать бутылки (3 - 15 грн)\n"
-                  "2 - работать грузчиком (30 грн) (нужны тапки)\n"
-                  "3 - работать менеджером (100 грн) (нужен телефон)")
+            i = 1
+            for work_name in zarabotki:
+                money = zarabotki[work_name]['money']
+                if type(money) == list:
+                    money = f"{money[0]} - {money[1]}"
+
+                string = f"{i} - {work_name} ({money} грн)"
+                things = zarabotki[work_name]['things']
+                if len(things) != 0:
+                    string += f" (нужны {', '.join(things)})"
+                print(string)
+                i += 1
+
 
         elif choice == "3":
             pass
