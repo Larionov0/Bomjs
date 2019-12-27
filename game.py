@@ -8,9 +8,29 @@ with open('store.csv') as file:
         lst = line.rstrip().split(';')
         products[lst[0]] = int(lst[1])
 
-
+# zarabotki
+zarabotki = {}
 with open('zarabotki.csv') as file:
-    pass
+    file.readline()
+    for line in file:
+        work_list = line.rstrip().split(";")
+        money = work_list[1]
+        if money.isdigit():
+            money = int(money)
+        else:
+            money = money.split(" - ")
+            money[0] = int(money[0])
+            money[1] = int(money[1])
+
+        things = work_list[2].split(", ")
+        if things[0] == '':
+            things.pop()
+
+        work_dict = {
+            "money": money,
+            'things': things
+        }
+        zarabotki[work_list[0]] = work_dict
 
 
 COUNT_OF_PLAYERS = int(input("Сколько бомжей симулировать?: "))
