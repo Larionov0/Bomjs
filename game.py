@@ -9,6 +9,7 @@ with open('store.csv') as file:
     for line in file:
         lst = line.rstrip().split(';')
         products[lst[0]] = int(lst[1])
+print(products)
 
 # zarabotki
 zarabotki = {}
@@ -64,7 +65,25 @@ while True:
         choice = input("Ваш выбор: ")
 
         if choice == "1":
-            pass
+            system('cls')
+            print("Магазин:")
+
+            keys = list(products.keys())
+            for i in range(len(products)):
+                product = keys[i]
+                print(f"{i + 1} - {product} ({products[product]} грн)")
+            choice = int(input("Ваш выбор: "))
+
+            if 1 <= choice <= len(products):
+                product = keys[choice - 1]
+                if player['money'] >= products[product]:
+                    player['money'] -= products[product]
+                    player['staff'].append(product)
+                    input("Вы приобрели " + product)
+
+                else:
+                    input("Не хватает!")
+
 
         elif choice == "2":
             system('cls')
