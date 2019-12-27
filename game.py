@@ -1,4 +1,6 @@
 from os import system
+from time import sleep
+from random import randint
 
 # store
 products = {}
@@ -52,6 +54,8 @@ while True:
         system('cls')
         print("----= Main menu =-----\n"
               f"День начался для {player['name']}!\n"
+              f"Ваши деньги: {player['money']}\n"
+              f"Ваши вещи: {player['staff']}\n"
               "1 - магазин\n"
               "2 - на заработки\n"
               "3 - побиться с соседом\n"
@@ -63,6 +67,7 @@ while True:
             pass
 
         elif choice == "2":
+            system('cls')
             i = 1
             for work_name in zarabotki:
                 money = zarabotki[work_name]['money']
@@ -75,6 +80,39 @@ while True:
                     string += f" (нужны {', '.join(things)})"
                 print(string)
                 i += 1
+
+            choice = int(input("Ваш выбор: "))
+
+            if not (1 <= choice <= len(zarabotki)):
+                input("Вы ввели неправильное число!")
+                continue
+
+
+            player_work = list(zarabotki.keys())[choice - 1]  # "работать грузчиком"
+            work_staff = zarabotki[player_work]['things']
+            player_staff = player['staff']
+
+            result = True
+            for thing in work_staff:
+                if thing not in player_staff:
+                    result = False
+                    break
+
+            if result:
+                print(f"Идет работа... {player_work}")
+                sleep(1)
+                money_up = zarabotki[player_work]['money']
+                if type(money_up) == list:
+                    money_up = randint(money_up[0], money_up[1])
+
+                player['money'] += money_up
+                input(f'Работа окончена! Вы заработали {money_up}')
+
+
+            else:
+                input("У вас нехватает вещей :(")
+
+
 
 
         elif choice == "3":
