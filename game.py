@@ -1,7 +1,7 @@
 from os import system
 from time import sleep
 from random import randint
-from json import dump, load
+from pickle import dump, load
 
 FILENAME = 'saving.csv'
 
@@ -43,7 +43,7 @@ with open('zarabotki.csv') as file:
 
 # saving
 try:
-    with open('saving_json.txt', encoding='utf-8') as file:
+    with open('saving_bin.bin', 'rb') as file:
         saving = load(file)
     correct_saving = True
 except Exception:
@@ -177,6 +177,6 @@ while True:
             print("Пропущено")
 
         elif choice == "5":
-            with open('saving_json.txt', 'wt', encoding='utf-8') as file:
+            with open('saving_bin.bin', 'wb') as file:
                 dump(bomji, file)
             exit()
