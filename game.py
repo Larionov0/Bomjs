@@ -2,6 +2,8 @@ from os import system
 from time import sleep
 from random import randint
 
+FILENAME = 'saving.csv'
+
 # store
 products = {}
 with open('store.csv') as file:
@@ -38,19 +40,57 @@ with open('zarabotki.csv') as file:
         }
         zarabotki[work_list[0]] = work_dict
 
+# saving
+saving = []
+try:
+    with open('saving.csv') as file:
+        file.readline()
+        for line in file:
+            bomj_list = line.rstrip().split(';')
+            bomj = {}
+            bomj['name'] = bomj_list[0]
+            bomj['money'] = int(bomj_list[1])
+            bomj['satiety'] = int(bomj_list[2])
+            bomj['staff'] = bomj_list[3].split(',')
+            saving.append(bomj)
+    correct_saving = True
+except:
+    correct_saving = False
 
-COUNT_OF_PLAYERS = int(input("Сколько бомжей симулировать?: "))
-bomji = []
+if correct_saving:
+    print("1 - новая игра\n"
+          "2 - продолжить игру")
+    ans = input("Ваш выбор: ")
 
-for i in range(COUNT_OF_PLAYERS):
-    name = input("Введите имя вашего персонажа: ")
-    bomj = {
-        "name": name,
-        "money": 10,
-        "satiety": 5,
-        "staff": ["шапка", "штаны"]
-    }
-    bomji.append(bomj)
+    if ans == '1':
+        COUNT_OF_PLAYERS = int(input("Сколько бомжей симулировать?: "))
+        bomji = []
+
+        for i in range(COUNT_OF_PLAYERS):
+            name = input("Введите имя вашего персонажа: ")
+            bomj = {
+                "name": name,
+                "money": 10,
+                "satiety": 5,
+                "staff": ["шапка", "штаны"]
+            }
+            bomji.append(bomj)
+    elif ans == '2':
+        bomji = saving
+
+else:
+    COUNT_OF_PLAYERS = int(input("Сколько бомжей симулировать?: "))
+    bomji = []
+
+    for i in range(COUNT_OF_PLAYERS):
+        name = input("Введите имя вашего персонажа: ")
+        bomj = {
+            "name": name,
+            "money": 10,
+            "satiety": 5,
+            "staff": ["шапка", "штаны"]
+        }
+        bomji.append(bomj)
 
 
 while True:
@@ -144,4 +184,15 @@ while True:
             print("Пропущено")
 
         elif choice == "5":
+            with open(FILENAME, 'wt') as file:
+                file.write('name;money;satiety;staff\n')
+                for bomj in bomji:
+                    line = ''
+                    for key in bomj:
+                        if key == 'staff':
+                            line += ','.join(bomj['staff']) + "\n"
+                        else:
+                            line += str(bomj[key]) + ";"
+                    file.write(line)
+
             exit()
