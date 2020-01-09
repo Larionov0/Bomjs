@@ -1,6 +1,7 @@
 from os import system
 from time import sleep
 from random import randint
+from json import dump, load
 
 FILENAME = 'saving.csv'
 
@@ -41,20 +42,11 @@ with open('zarabotki.csv') as file:
         zarabotki[work_list[0]] = work_dict
 
 # saving
-saving = []
 try:
-    with open('saving.csv') as file:
-        file.readline()
-        for line in file:
-            bomj_list = line.rstrip().split(';')
-            bomj = {}
-            bomj['name'] = bomj_list[0]
-            bomj['money'] = int(bomj_list[1])
-            bomj['satiety'] = int(bomj_list[2])
-            bomj['staff'] = bomj_list[3].split(',')
-            saving.append(bomj)
+    with open('saving_json.txt', encoding='utf-8') as file:
+        saving = load(file)
     correct_saving = True
-except:
+except Exception:
     correct_saving = False
 
 if correct_saving:
@@ -75,6 +67,7 @@ if correct_saving:
                 "staff": ["шапка", "штаны"]
             }
             bomji.append(bomj)
+
     elif ans == '2':
         bomji = saving
 
@@ -184,15 +177,6 @@ while True:
             print("Пропущено")
 
         elif choice == "5":
-            with open(FILENAME, 'wt') as file:
-                file.write('name;money;satiety;staff\n')
-                for bomj in bomji:
-                    line = ''
-                    for key in bomj:
-                        if key == 'staff':
-                            line += ','.join(bomj['staff']) + "\n"
-                        else:
-                            line += str(bomj[key]) + ";"
-                    file.write(line)
-
+            with open('saving_json.txt', 'wt', encoding='utf-8') as file:
+                dump(bomji, file)
             exit()
