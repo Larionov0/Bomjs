@@ -29,9 +29,12 @@ with open('zarabotki.csv') as file:
         if things[0] == '':
             things.pop()
 
+        time = float(work_list[3])
+
         work_dict = {
             "money": money,
-            'things': things
+            'things': things,
+            'time': time
         }
         zarabotki[work_list[0]] = work_dict
 
@@ -119,7 +122,7 @@ while True:
 
             if result:
                 print(f"Идет работа... {player_work}")
-                sleep(1)
+                sleep(zarabotki[player_work]['time'])
                 money_up = zarabotki[player_work]['money']
                 if type(money_up) == list:
                     money_up = randint(money_up[0], money_up[1])
@@ -138,7 +141,7 @@ while True:
             pass
 
         elif choice == "4":
-            pass
+            print("Пропущено")
 
         elif choice == "5":
-            pass
+            exit()
